@@ -1,0 +1,6 @@
+--compilers js:babel-core/register
+--recursive ./src/**/*.spec.js
+--require babel-polyfill
+--require src/testSetup
+--colors
+--require ignore-styles

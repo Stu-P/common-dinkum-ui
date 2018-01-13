@@ -1,0 +1,11 @@
+
+.dinkum-button {
+    height:30px;
+    background-color: #efebd5;
+    color: rgb(131, 85, 0);
+    font-weight: bold;
+}
+.dinkum-button:disabled {
+    background-color: #f1f1f1;
+    color: rgb(156, 156, 156);
+}
