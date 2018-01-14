@@ -1,8 +1,8 @@
 {
   "name": "common-dinkum-ui",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "",
-  "main": "src/index.js",
+  "main": "dist/bundle.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha --opts mocha.opts",
     "clean": "rm -rf dist",
@@ -16,8 +16,12 @@
     "build": "npm run clean; npm run build:webpack",
     "build:webpack": "cross-env NODE_ENV=production webpack --config webpack.config.js"
   },
-  "author": "",
+  "files": [
+    "dist"
+  ],
+  "author": "Stu-P <stuartparton@gmaildotcom>",
   "license": "ISC",
+  "repository":"https://github.com/Stu-P/common-dinkum-ui",
   "dependencies": {
     "babel-core": "^6.26.0",
     "react": "^16.2.0",

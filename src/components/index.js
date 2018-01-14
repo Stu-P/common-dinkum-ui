@@ -1,1 +1,1 @@
-export { default as DinkumButton } from './DinkumButton';
+export { default as DinkumButton } from './DinkumButton/DinkumButton';
