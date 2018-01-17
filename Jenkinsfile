@@ -8,13 +8,10 @@ pipeline {
         } 
     }
 
-	options { skipDefaultCheckout() }
-	
-
+	options { skipDefaultCheckout() }	
         environment { 
 			CI='TRUE'
 			HOME='.'
-			
 		}
 
     stages {
@@ -26,46 +23,40 @@ pipeline {
 
     		}
 		}    
-	
-    stage("Lint") {
-
+		
+		stage("Lint") {
 			steps {
-			    sh 'npm run lint:js'
+				sh 'npm run lint:js'
 			}
 		}
 
-    stage("Unit Test") {
+		stage("Unit Test") {
 
 			steps {
 				echo 'run unit tests'
-                sh 'npm test'
-                echo 'code coverage'
+				sh 'npm test'
+				echo 'code coverage'
 			}
 		}
 
-    stages {
 		stage("Visual regression tests") {
-			 
+				 
 			steps {
 				echo 'visual regression tests'
-
-    		}
+			}
 		}   
 
-	stage("Package") {
-
+		stage("Package") {
 			steps {
 				sh 'npm run build'
 			}
 		}
 
-    stage("Publish") {
-
+		stage("Publish") {
 			steps {
 				echo 'publish to npm'
-                sh 'npm publish'
+				sh 'npm publish'
 			}
 		}    
 	}
-}
 }
