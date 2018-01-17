@@ -15,7 +15,7 @@ pipeline {
 		}
 
     stages {
-		stage("Build") {
+		stage("Restore") {
 			 
 			steps {
 				checkout scm
