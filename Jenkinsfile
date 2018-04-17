@@ -57,7 +57,7 @@ pipeline {
 		stage("Publish") {
 			steps {
 				echo 'publish to npm'
-				sh "sed -i 's/[NPM_TOKEN]/${env.NPM_TOKEN}/g' .npmrc"
+				sh "sed -i 's/NPM_TOKEN/${env.NPM_TOKEN}/g' .npmrc"
 				sh 'npm publish'
 			}
 		}    
