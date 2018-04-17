@@ -12,6 +12,8 @@ pipeline {
         environment { 
 			CI='TRUE'
 			HOME='.'
+			NPM_TOKEN = credentials('NPM_ACCESS_KEY')
+
 		}
 
     stages {
@@ -55,6 +57,7 @@ pipeline {
 		stage("Publish") {
 			steps {
 				echo 'publish to npm'
+				sh "sed -i 's/[NPM_TOKEN]/${env.NPM_TOKEN}/g' .npmrc"
 				sh 'npm publish'
 			}
 		}    
