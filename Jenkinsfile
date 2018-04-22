@@ -7,8 +7,10 @@ pipeline {
             args '-p 3000:3000'
         } 
     }
-
-	options { skipDefaultCheckout() }	
+	options { 
+			buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
+			skipDefaultCheckout() 
+		}	
         environment { 
 			CI='TRUE'
 			HOME='.'
@@ -57,7 +59,7 @@ pipeline {
 		stage("Publish") {
 			steps {
 				echo 'publish to npm'
-				sh "sed -i 's/[NPM_TOKEN]/${env.NPM_TOKEN}/g' .npmrc"
+				sh "sed -i 's/NPM_TOKEN/${env.NPM_TOKEN}/g' .npmrc"
 				sh 'npm publish'
 			}
 		}    
