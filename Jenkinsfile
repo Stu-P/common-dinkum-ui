@@ -15,28 +15,23 @@ pipeline {
 			CI='TRUE'
 			HOME='.'
 			NPM_TOKEN = credentials('NPM_ACCESS_KEY')
-
 		}
 
     stages {
 		stage("Restore") {
-            agent { docker { image 'node:7-alpine' } }
 			steps {
 				checkout scm
 				sh 'npm install'
-
     		}
 		}    
 		
 		stage("Lint") {
-			agent { docker { image 'node:7-alpine' } }
 			steps {
 				sh 'npm run lint:js'
 			}
 		}
 
 		stage("Unit Test") {
-			agent { docker { image 'node:7-alpine' } }
 			steps {
 				echo 'run unit tests'
 				sh 'npm test'
@@ -45,8 +40,6 @@ pipeline {
 		}
 
 		stage("Code Coverage") {
-			agent { docker { image 'node:7-alpine' } }
-
 			steps {
 				echo 'code coverage'
 				sh 'npm run coverage'
@@ -54,27 +47,14 @@ pipeline {
 		}
 
 		stage("Visual Regression") {
-			agent { label 'master' }  // run on docker host
-	 
-		//	steps {
-		//		echo 'visual regression tests'
-				
-				docker.image('node:7-alpine').withRun('-p 6007:6007')	{ c ->
-					docker.image('node:7-alpine').inside("--link ${c.id}:localhost") {
-						echo 'start storybook server'
-						sh 'npm run storybook'
-						sh 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:6007)" != "200" ]]; do sleep 1; done'
-					}
-					docker.image('node:7-alpine').inside("--link ${c.id}:localhost") {
-						echo 'start loki tests'
-						sh 'npm run loki:test'
-					}
-			//	}
+			steps {
+				echo 'visual regression tests'
+				sh 'npm run loki:testci'
+				}
 			}
 		}   
 
 		stage("Package") {
-			agent { docker { image 'node:7-alpine' } }
 			steps {
 				sh 'npm run build'
 			}
@@ -87,5 +67,14 @@ pipeline {
 				sh 'npm publish'
 			}
 		}    
+	}
+	post {
+		always {
+			deleteDir()
+			unstash "solution" 
+			archiveArtifacts allowEmptyArchive: true, artifacts: '.loki/**' 
+
+			publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'coverage/lcov-report/', reportFiles: 'index.html', reportName: 'Code Coverage', reportTitles: ''])
+		}	
 	}
 }

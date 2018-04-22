@@ -10,6 +10,7 @@
     "storybook": "start-storybook -p 6007",
     "loki:update": "loki update",
     "loki:test": "loki test",
+    "loki:testci": "build-storybook && loki --requireReference --reactUri file:./storybook-static",
     "loki:approve": "loki approve",
     "coverage": "node_modules/.bin/nyc --reporter=lcov --require babel-core/register node_modules/.bin/mocha  --opts mocha.opts",
     "build-storybook": "build-storybook",
