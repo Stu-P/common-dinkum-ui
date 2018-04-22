@@ -50,7 +50,6 @@ pipeline {
 			steps {
 				echo 'visual regression tests'
 				sh 'npm run loki:testci'
-				}
 			}
 		}   
 
@@ -66,8 +65,8 @@ pipeline {
 				sh "sed -i 's/NPM_TOKEN/${env.NPM_TOKEN}/g' .npmrc"
 				sh 'npm publish'
 			}
-		}    
-	}
+		} 
+	}   
 	post {
 		always {
 			deleteDir()
