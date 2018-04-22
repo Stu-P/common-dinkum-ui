@@ -47,6 +47,8 @@ pipeline {
 		}
 
 		stage("Visual Regression") {
+				agent { label 'master'}        
+
 			steps {
 				echo 'visual regression tests'
 				sh 'npm run loki:testci'
