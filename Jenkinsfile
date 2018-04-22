@@ -20,7 +20,7 @@ pipeline {
 
     stages {
 		stage("Restore") {
-			 
+            agent { docker { image 'node:7-alpine' } }
 			steps {
 				checkout scm
 				sh 'npm install'
@@ -29,13 +29,14 @@ pipeline {
 		}    
 		
 		stage("Lint") {
+			agent { docker { image 'node:7-alpine' } }
 			steps {
 				sh 'npm run lint:js'
 			}
 		}
 
 		stage("Unit Test") {
-
+			agent { docker { image 'node:7-alpine' } }
 			steps {
 				echo 'run unit tests'
 				sh 'npm test'
@@ -43,14 +44,37 @@ pipeline {
 			}
 		}
 
-		stage("Visual regression tests") {
-				 
+		stage("Code Coverage") {
+			agent { docker { image 'node:7-alpine' } }
+
+			steps {
+				echo 'code coverage'
+				sh 'npm run coverage'
+			}
+		}
+
+		stage("Visual Regression") {
+			agent { label 'master' }  // run on docker host
+	 
 			steps {
 				echo 'visual regression tests'
+				
+				docker.image('node:7-alpine').withRun('-p 6007:6007')	{ c ->
+					docker.image('node:7-alpine').inside("--link ${c.id}:localhost") {
+						echo 'start storybook server'
+						sh 'npm run storybook'
+						sh 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:6007)" != "200" ]]; do sleep 1; done'
+					}
+					docker.image('node:7-alpine').inside("--link ${c.id}:localhost") {
+						echo 'start loki tests'
+						sh 'npm run loki:test'
+					}
+				}
 			}
 		}   
 
 		stage("Package") {
+			agent { docker { image 'node:7-alpine' } }
 			steps {
 				sh 'npm run build'
 			}
