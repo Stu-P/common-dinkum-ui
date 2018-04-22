@@ -56,8 +56,8 @@ pipeline {
 		stage("Visual Regression") {
 			agent { label 'master' }  // run on docker host
 	 
-			steps {
-				echo 'visual regression tests'
+		//	steps {
+		//		echo 'visual regression tests'
 				
 				docker.image('node:7-alpine').withRun('-p 6007:6007')	{ c ->
 					docker.image('node:7-alpine').inside("--link ${c.id}:localhost") {
@@ -69,7 +69,7 @@ pipeline {
 						echo 'start loki tests'
 						sh 'npm run loki:test'
 					}
-				}
+			//	}
 			}
 		}   
 
