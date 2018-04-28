@@ -73,8 +73,8 @@ pipeline {
 		stage("Publish") {
 			steps {
 				echo 'publish to npm'
-				sh "sed -i 's/NPM_TOKEN/${env.NPM_TOKEN}/g' .npmrc"
-				sh 'npm publish'
+				//sh "sed -i 's/NPM_TOKEN/${env.NPM_TOKEN}/g' .npmrc"
+				//sh 'npm publish'
 			}
 		} 
 	}   
@@ -82,7 +82,7 @@ pipeline {
 		always {
 			deleteDir()
 			unstash "solution" 
-			archiveArtifacts allowEmptyArchive: true, artifacts: '.loki/difference/*' 
+			archiveArtifacts allowEmptyArchive: true, artifacts: '.loki/**' 
 
 			publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'coverage/lcov-report/', reportFiles: 'index.html', reportName: 'Code Coverage', reportTitles: ''])
 		}	
