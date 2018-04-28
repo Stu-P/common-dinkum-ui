@@ -1,7 +1,10 @@
 def buildVersion = ''
 
 pipeline {
-    agent { dockerfile true }
+    agent { 
+		dockerfile true
+		args '--privileged' 
+	}
     
 	options { 
 			buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
@@ -46,7 +49,8 @@ pipeline {
 
 			steps {
 				echo 'visual regression tests'
-				sh 'npm run storybook&npm run loki:test'
+				sh 'npm run storybook&'
+				sh 'npm run loki:test'
 			}
 		}   
 
