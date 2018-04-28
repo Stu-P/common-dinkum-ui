@@ -1,10 +1,12 @@
 def buildVersion = ''
 
 pipeline {
-    agent { 
-		dockerfile true
-		args '--privileged' 
-	}
+	agent {
+    	dockerfile {
+      		filename 'Dockerfile'
+      		args: '--privileged'
+    	}
+  	}
     
 	options { 
 			buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
