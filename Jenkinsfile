@@ -69,7 +69,7 @@ pipeline {
 		always {
 			deleteDir()
 			unstash "solution" 
-			archiveArtifacts allowEmptyArchive: true, artifacts: '.loki/**' 
+			archiveArtifacts allowEmptyArchive: true, artifacts: '.loki/difference/*' 
 
 			publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'coverage/lcov-report/', reportFiles: 'index.html', reportName: 'Code Coverage', reportTitles: ''])
 		}	
