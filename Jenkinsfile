@@ -1,7 +1,7 @@
 def buildVersion = ''
 
 pipeline {
-	agent {  dockerfile true }    
+    agent { dockerfile true }
     
 	options { 
 			buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
