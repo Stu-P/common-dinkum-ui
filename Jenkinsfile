@@ -1,12 +1,8 @@
 def buildVersion = ''
 
 pipeline {
-	agent {         
-        docker {
-            image 'node:7-alpine'
-            args '-p 3000:3000'
-        } 
-    }
+	agent {  dockerfile true }    
+    
 	options { 
 			buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
 			skipDefaultCheckout() 
@@ -51,8 +47,7 @@ pipeline {
 
 			steps {
 				echo 'visual regression tests'
-				//sh 'npm run loki:testci'
-				//sh 'npm run build-storybook'
+				sh 'npm run loki:testci'
 			}
 		}   
 
