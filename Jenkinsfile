@@ -80,8 +80,7 @@ pipeline {
 	}   
 	post {
 		always {
-			deleteDir()
-			unstash "solution" 
+
 			archiveArtifacts allowEmptyArchive: true, artifacts: '.loki/**' 
 
 			publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'coverage/lcov-report/', reportFiles: 'index.html', reportName: 'Code Coverage', reportTitles: ''])
