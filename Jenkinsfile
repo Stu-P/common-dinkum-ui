@@ -47,7 +47,8 @@ pipeline {
 
 			steps {
 				echo 'visual regression tests'
-				sh 'npm run loki:testci'
+				sh 'npm run storybook&'
+				sh 'npm run loki:test'
 			}
 		}   
 
