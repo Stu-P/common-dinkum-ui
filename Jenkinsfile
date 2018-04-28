@@ -51,7 +51,16 @@ pipeline {
 			steps {
 				echo 'visual regression tests'
 				sh 'npm run storybook&'
-				sh 'npm run loki:test'
+				
+				script{
+					try {
+					sh 'npm run loki:test'
+					}
+					catch(ex) {
+					 input "Regressions detected, approve changes?"
+						sh 'npm run loki:update'	
+					}
+				}
 			}
 		}   
 
