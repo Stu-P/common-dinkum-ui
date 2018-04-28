@@ -3,8 +3,7 @@ def buildVersion = ''
 pipeline {
 	agent {
     	dockerfile {
-      		filename 'Dockerfile'
-      		args: '--privileged'
+      		args '--privileged'
     	}
   	}
     
