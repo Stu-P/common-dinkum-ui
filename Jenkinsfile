@@ -5,7 +5,7 @@ pipeline {
     
 	options { 
 			buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
-			skipDefaultCheckout() 
+//			skipDefaultCheckout() 
 		}	
         environment { 
 			CI='TRUE'
@@ -16,7 +16,7 @@ pipeline {
     stages {
 		stage("Restore") {
 			steps {
-				checkout scm
+			//	checkout scm
 				sh 'npm install'
     		}
 		}    
